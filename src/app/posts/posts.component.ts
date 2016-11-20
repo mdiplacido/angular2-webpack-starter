@@ -10,6 +10,7 @@ import "rxjs";
   styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit {
+  lastError: any;
   posts: any[];
   loading = false;
 
@@ -20,11 +21,12 @@ export class PostsComponent implements OnInit {
 
   public fetchWithAlert() {
     console.log("got to fetchWithAlert");
+    this.lastError = undefined;
     this.loading = true;
     this.http
       .get("https://jsonplaceholder.typicode.com/posts")
       .catch((error) => {
-        alert('got error' + error);
+        this.lastError = error;
         return Observable.throw(error);
       })
       .finally(() => {

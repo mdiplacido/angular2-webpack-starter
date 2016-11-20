@@ -10,6 +10,15 @@
   Loading results...
 </p>
 
+<div [hidden]="!lastError">
+  <div [hidden]="!lastError">
+    {{lastError | json}}
+  </div>
+  <div *ngIf="lastError && lastError.statusText && (lastError.statusText.length > 0)">
+    {{lastError.statusText}}
+  </div>
+</div>
+
 <table [hidden]="loading || !posts">
   <thead>
     <th>User id</th>
