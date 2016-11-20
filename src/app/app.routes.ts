@@ -1,3 +1,4 @@
+import { SimpleBindingComponent } from './simple-binding/simple-binding.component';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home';
 import { AboutComponent } from './about';
@@ -7,11 +8,12 @@ import { DataResolver } from './app.resolver';
 
 
 export const ROUTES: Routes = [
-  { path: '',      component: HomeComponent },
-  { path: 'home',  component: HomeComponent },
+  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
+  { path: 'simple-binding', component: SimpleBindingComponent },
   {
     path: 'detail', loadChildren: () => System.import('./+detail').then((comp: any) => comp.default),
   },
-  { path: '**',    component: NoContentComponent },
+  { path: '**', component: NoContentComponent },
 ];
