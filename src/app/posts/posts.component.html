@@ -10,7 +10,8 @@
   Loading results...
 </p>
 
-<div [hidden]="!lastError">
+<div [hidden]="!lastError" class="error">
+  <h2>Encountered error:</h2>
   <div [hidden]="!lastError">
     {{lastError | json}}
   </div>
