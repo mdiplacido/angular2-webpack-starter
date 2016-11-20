@@ -16,4 +16,8 @@ export class SimpleBindingComponent implements OnInit {
   increment() {
     this.counter++;
   }
+
+  get square(): number {
+    return this.counter * this.counter;
+  }
 }
