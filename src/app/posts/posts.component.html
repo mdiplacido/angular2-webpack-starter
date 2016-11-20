@@ -6,7 +6,11 @@
 
 <h2>Results</h2>
 
-<table>
+<p [hidden]="!loading">
+  Loading results...
+</p>
+
+<table [hidden]="loading || !posts">
   <thead>
     <th>User id</th>
     <th>Id</th>

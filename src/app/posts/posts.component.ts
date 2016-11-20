@@ -11,6 +11,7 @@ import "rxjs";
 })
 export class PostsComponent implements OnInit {
   posts: any[];
+  loading = false;
 
   constructor(private http: Http) { }
 
@@ -19,11 +20,15 @@ export class PostsComponent implements OnInit {
 
   public fetchWithAlert() {
     console.log("got to fetchWithAlert");
+    this.loading = true;
     this.http
       .get("https://jsonplaceholder.typicode.com/posts")
       .catch((error) => {
         alert('got error' + error);
         return Observable.throw(error);
+      })
+      .finally(() => {
+        this.loading = false;
       })
       .subscribe(response => {
         let data = response.json();
