@@ -10,6 +10,8 @@ import "rxjs";
   styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit {
+  posts: any[];
+
   constructor(private http: Http) { }
 
   ngOnInit() {
@@ -18,14 +20,15 @@ export class PostsComponent implements OnInit {
   public fetchWithAlert() {
     console.log("got to fetchWithAlert");
     this.http
-      .get("https://jsonplaceholder.typicode.com/postsss")
+      .get("https://jsonplaceholder.typicode.com/posts")
       .catch((error) => {
         alert('got error' + error);
         return Observable.throw(error);
       })
       .subscribe(response => {
         let data = response.json();
-        alert('got here! total count is: ' + data.length);
+        // alert('got here! total count is: ' + data.length);
+        this.posts = data;
       });
   }
 }

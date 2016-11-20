@@ -3,3 +3,20 @@
 <p>
   <button type="button" (click)="fetchWithAlert()">Fetch</button>
 </p>
+
+<h2>Results</h2>
+
+<table>
+  <thead>
+    <th>User id</th>
+    <th>Id</th>
+    <th>Title</th>
+    <th>Body</th>
+  </thead>
+  <tr *ngFor="let item of posts">
+    <td>{{item.userId}}</td>
+    <td>{{item.id}}</td>
+    <td>{{item.title}}</td>
+    <td>{{item.body}}</td>
+  </tr>
+</table>
