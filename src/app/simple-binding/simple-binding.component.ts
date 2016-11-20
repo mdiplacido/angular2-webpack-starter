@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SimpleBindingComponent implements OnInit {
   counter: number = 0;
+  echoText: string;
 
   constructor() { }
 

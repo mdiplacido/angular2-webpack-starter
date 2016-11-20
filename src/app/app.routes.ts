@@ -1,3 +1,4 @@
+import { PostsComponent } from './posts/posts.component';
 import { SimpleBindingComponent } from './simple-binding/simple-binding.component';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home';
@@ -12,6 +13,7 @@ export const ROUTES: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'simple-binding', component: SimpleBindingComponent },
+  { path: 'posts', component: PostsComponent },
   {
     path: 'detail', loadChildren: () => System.import('./+detail').then((comp: any) => comp.default),
   },

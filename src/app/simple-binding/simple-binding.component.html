@@ -1,4 +1,9 @@
+<h1>Simple binding</h1>
 count is: {{counter}}
 <br /> square is: {{square}}
 <br /> square is: {{counter * counter}}
 <button type="button" (click)="increment()">Increment</button>
+
+<h1>Echo text</h1>
+<input type="text" name="echoText" [(ngModel)]="echoText">
+<br> Echo: {{echoText}}
