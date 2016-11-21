@@ -1,9 +1,7 @@
-import { Observable } from 'rxjs/Observable';
+import * as Rx from 'rxjs/Rx';
 import { Http } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
 import { IPost } from './post';
-
-import "rxjs";
 
 @Component({
   selector: 'app-posts',
@@ -14,28 +12,38 @@ export class PostsComponent implements OnInit {
   lastError: any;
   allPosts: IPost[] = [];
   filteredPosts: IPost[] = [];
+  loadingSubject = new Rx.Subject<boolean>();
   loading = false;
   searchText: string;
 
-  constructor(private http: Http) { }
+  constructor(private http: Http) {
+  }
 
   ngOnInit() {
+    this.loadingSubject
+      .defaultIfEmpty(false)
+      .debounceTime(1000)
+      .distinctUntilChanged()
+      .subscribe(loading => {
+        console.log("changing loading to: " + loading);
+        this.loading = loading;
+      });
   }
 
   public fetchAllPosts() {
     console.log("got to fetchAllPosts");
     this.lastError = undefined;
-    this.loading = true;
+    this.loadingSubject.next(true);
     this.allPosts = [];
     this.filteredPosts = [];
     this.http
       .get("https://jsonplaceholder.typicode.com/posts")
       .catch((error) => {
         this.lastError = error;
-        return Observable.throw(error);
+        return Rx.Observable.throw(error);
       })
       .finally(() => {
-        this.loading = false;
+        this.loadingSubject.next(false);
       })
       .subscribe(response => {
         let data = response.json();
