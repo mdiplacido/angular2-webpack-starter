@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs/Observable';
 import { Http } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
+import { IPost } from './post';
 
 import "rxjs";
 
@@ -11,16 +12,18 @@ import "rxjs";
 })
 export class PostsComponent implements OnInit {
   lastError: any;
-  posts: any[];
+  allPosts: IPost[] = [];
+  filteredPosts: IPost[] = [];
   loading = false;
+  searchText: string;
 
   constructor(private http: Http) { }
 
   ngOnInit() {
   }
 
-  public fetchWithAlert() {
-    console.log("got to fetchWithAlert");
+  public fetchAllPosts() {
+    console.log("got to fetchAllPosts");
     this.lastError = undefined;
     this.loading = true;
     this.http
@@ -35,7 +38,33 @@ export class PostsComponent implements OnInit {
       .subscribe(response => {
         let data = response.json();
         // alert('got here! total count is: ' + data.length);
-        this.posts = data;
+        this.allPosts = data;
+        this.filteredPosts = this.filterInMemory(data);
       });
+  }
+
+  public filterInMemory(posts: IPost[]) {
+    let text = this.cleanSearchText;
+    if (text.length === 0) {
+      return posts;
+    }
+
+    return posts.filter(post => post.body.toLowerCase().indexOf(text) !== -1);
+  }
+
+  public searchTextChanged() {
+    this.filteredPosts = this.filterInMemory(this.allPosts);
+  }
+
+  public get postsView(): IPost[] {
+    return this.cleanSearchText.length > 0 ? this.filteredPosts : this.allPosts;
+  }
+
+  private get cleanSearchText() {
+    if (!this.searchText) {
+      return "";
+    }
+
+    return this.searchText.trim().toLowerCase();
   }
 }

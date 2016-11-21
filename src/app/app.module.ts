@@ -1,3 +1,4 @@
+import { PostsGridComponent } from './posts/posts-grid/posts-grid.component';
 import { PostsComponent } from './posts/posts.component';
 import { SimpleBindingComponent } from './simple-binding/simple-binding.component';
 import { NgModule, ApplicationRef } from '@angular/core';
@@ -45,7 +46,8 @@ type StoreType = {
     NoContentComponent,
     XLarge,
     SimpleBindingComponent,
-    PostsComponent
+    PostsComponent,
+    PostsGridComponent
   ],
   imports: [ // import Angular's modules
     BrowserModule,

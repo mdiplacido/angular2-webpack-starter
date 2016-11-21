@@ -1,7 +1,7 @@
 <h1>Fetch data examples</h1>
 <h2>Simple fetch and alert</h2>
 <p>
-  <button type="button" (click)="fetchWithAlert()">Fetch</button>
+  <button type="button" (click)="fetchAllPosts()">Fetch</button>
 </p>
 
 <h2>Results</h2>
@@ -20,17 +20,12 @@
   </div>
 </div>
 
-<table [hidden]="loading || !posts">
-  <thead>
-    <th>User id</th>
-    <th>Id</th>
-    <th>Title</th>
-    <th>Body</th>
-  </thead>
-  <tr *ngFor="let item of posts">
-    <td>{{item.userId}}</td>
-    <td>{{item.id}}</td>
-    <td>{{item.title}}</td>
-    <td>{{item.body}}</td>
-  </tr>
-</table>
+<h3>Filter in memory</h3>
+search body <input type="text" name="searchText" [(ngModel)]="searchText" (keyup)="searchTextChanged($event)">
+
+<app-posts-grid [posts]="postsView"></app-posts-grid>
+
+<!--filtered Posts:
+<pre>
+  {{filteredPosts | json}}
+</pre>-->
