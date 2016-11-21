@@ -10,20 +10,22 @@
   Loading results...
 </p>
 
-<div [hidden]="!lastError" class="error">
-  <h2>Encountered error:</h2>
-  <div [hidden]="!lastError">
-    {{lastError | json}}
+<div [hidden]="loading">
+  <div [hidden]="!lastError" class="error">
+    <h2>Encountered error:</h2>
+    <div [hidden]="!lastError">
+      {{lastError | json}}
+    </div>
+    <div *ngIf="lastError && lastError.statusText && (lastError.statusText.length > 0)">
+      {{lastError.statusText}}
+    </div>
   </div>
-  <div *ngIf="lastError && lastError.statusText && (lastError.statusText.length > 0)">
-    {{lastError.statusText}}
-  </div>
+
+  <h3>Filter in memory</h3>
+  search body <input type="text" name="searchText" [(ngModel)]="searchText" (keyup)="searchTextChanged($event)">
+
+  <app-posts-grid [posts]="postsView"></app-posts-grid>
 </div>
-
-<h3>Filter in memory</h3>
-search body <input type="text" name="searchText" [(ngModel)]="searchText" (keyup)="searchTextChanged($event)">
-
-<app-posts-grid [posts]="postsView"></app-posts-grid>
 
 <!--filtered Posts:
 <pre>

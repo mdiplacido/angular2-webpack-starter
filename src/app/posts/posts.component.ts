@@ -26,6 +26,8 @@ export class PostsComponent implements OnInit {
     console.log("got to fetchAllPosts");
     this.lastError = undefined;
     this.loading = true;
+    this.allPosts = [];
+    this.filteredPosts = [];
     this.http
       .get("https://jsonplaceholder.typicode.com/posts")
       .catch((error) => {
