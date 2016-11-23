@@ -9,6 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PostsComponent implements OnInit {
   posts: any;
+  loading = false;
 
   constructor(private http: Http) { }
 
@@ -17,11 +18,13 @@ export class PostsComponent implements OnInit {
 
   public fetchWithAlert() {
     let url = "https://jsonplaceholder.typicode.com/posts";
+    this.loading = true;
     this.http.get(url)
       .catch((error) => {
         alert('got error' + error);
         return Observable.throw(error);
       })
+      .finally(() => this.loading = false)
       .subscribe(response => {
         let data = response.json();
         // alert("got here! total count is: " + data.length);
