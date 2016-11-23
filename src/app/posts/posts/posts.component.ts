@@ -1,6 +1,6 @@
 import { PostService } from './../post.service';
 import { IPost } from './../model/post';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Http } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
 
@@ -18,9 +18,19 @@ export class PostsComponent implements OnInit {
   allPosts: IPost[] = [];
   filteredPosts: IPost[] = [];
 
+  loadingSubject = new Subject<boolean>();
+
   constructor(private postService: PostService) { }
 
   ngOnInit() {
+    this.loadingSubject
+      .defaultIfEmpty(false)
+      .debounceTime(1000)
+      .distinctUntilChanged()
+      .subscribe(loading => {
+        console.log("changing loading to " + loading);
+        this.loading = loading;
+      });
   }
 
   public fetchWithAlert() {
@@ -28,13 +38,14 @@ export class PostsComponent implements OnInit {
     this.filteredPosts = [];
     this.lastError = undefined;
 
-    this.loading = true;
+    this.loadingSubject.next(true);
+
     this.postService.getPosts()
       .catch((error) => {
         this.lastError = error;
         return Observable.throw(error);
       })
-      .finally(() => this.loading = false)
+      .finally(() => this.loadingSubject.next(false))
       .subscribe(posts => {
         // alert("got here! total count is: " + data.length);
         this.allPosts = posts;
