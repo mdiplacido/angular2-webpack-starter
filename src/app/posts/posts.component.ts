@@ -1,3 +1,4 @@
+import { PostService } from './post.service';
 import * as Rx from 'rxjs/Rx';
 import { Http } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
@@ -16,7 +17,7 @@ export class PostsComponent implements OnInit {
   loading = false;
   searchText: string;
 
-  constructor(private http: Http) {
+  constructor(private postService: PostService) {
   }
 
   ngOnInit() {
@@ -36,8 +37,8 @@ export class PostsComponent implements OnInit {
     this.loadingSubject.next(true);
     this.allPosts = [];
     this.filteredPosts = [];
-    this.http
-      .get("https://jsonplaceholder.typicode.com/posts")
+
+    this.postService.getPosts()
       .catch((error) => {
         this.lastError = error;
         return Rx.Observable.throw(error);
@@ -45,8 +46,7 @@ export class PostsComponent implements OnInit {
       .finally(() => {
         this.loadingSubject.next(false);
       })
-      .subscribe(response => {
-        let data = response.json();
+      .subscribe(data => {
         // alert('got here! total count is: ' + data.length);
         this.allPosts = data;
         this.filteredPosts = this.filterInMemory(data);
