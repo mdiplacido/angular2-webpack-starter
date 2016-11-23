@@ -1,3 +1,4 @@
+import { PostService } from './../post.service';
 import { IPost } from './../model/post';
 import { Observable } from 'rxjs';
 import { Http } from '@angular/http';
@@ -17,7 +18,7 @@ export class PostsComponent implements OnInit {
   allPosts: IPost[] = [];
   filteredPosts: IPost[] = [];
 
-  constructor(private http: Http) { }
+  constructor(private postService: PostService) { }
 
   ngOnInit() {
   }
@@ -26,19 +27,18 @@ export class PostsComponent implements OnInit {
     this.allPosts = [];
     this.filteredPosts = [];
     this.lastError = undefined;
-    let url = "https://jsonplaceholder.typicode.com/posts";
+
     this.loading = true;
-    this.http.get(url)
+    this.postService.getPosts()
       .catch((error) => {
         this.lastError = error;
         return Observable.throw(error);
       })
       .finally(() => this.loading = false)
-      .subscribe(response => {
-        let data = response.json();
+      .subscribe(posts => {
         // alert("got here! total count is: " + data.length);
-        this.allPosts = data;
-        this.filteredPosts = this.filterInMemory(data);
+        this.allPosts = posts;
+        this.filteredPosts = this.filterInMemory(posts);
       });
   }
 

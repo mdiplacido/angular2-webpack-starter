@@ -1,3 +1,4 @@
+import { PostService } from './posts/post.service';
 import { SimpleBindingComponent } from './posts/simple-binding/simple-binding.component';
 import { PostsComponent } from './posts/posts/posts.component';
 import { PostsGridComponent } from './posts/posts-grid/posts-grid.component';
@@ -26,7 +27,8 @@ import { XLarge } from './home/x-large';
 // Application wide providers
 const APP_PROVIDERS = [
   ...APP_RESOLVER_PROVIDERS,
-  AppState
+  AppState,
+  PostService
 ];
 
 type StoreType = {
