@@ -23,8 +23,12 @@
   Loading results...
 </div>
 
-<div [hidden]="loading || !posts">
+<div [hidden]="loading">
   <h2>Results</h2>
 
-  <app-posts-grid [posts]="posts"></app-posts-grid>
+  <h3>FIlter in memory</h3>
+
+  search body <input type="text" name="searchText" [(ngModel)]="searchText" (keyup)="searchTextChanged($event)">
+
+  <app-posts-grid [posts]="postsView"></app-posts-grid>
 </div>

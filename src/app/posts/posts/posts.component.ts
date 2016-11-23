@@ -1,3 +1,4 @@
+import { IPost } from './../model/post';
 import { Observable } from 'rxjs';
 import { Http } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
@@ -9,8 +10,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PostsComponent implements OnInit {
   lastError: any;
-  posts: any;
   loading = false;
+
+  searchText: string;
+
+  allPosts: IPost[] = [];
+  filteredPosts: IPost[] = [];
 
   constructor(private http: Http) { }
 
@@ -18,6 +23,8 @@ export class PostsComponent implements OnInit {
   }
 
   public fetchWithAlert() {
+    this.allPosts = [];
+    this.filteredPosts = [];
     this.lastError = undefined;
     let url = "https://jsonplaceholder.typicode.com/posts";
     this.loading = true;
@@ -30,7 +37,33 @@ export class PostsComponent implements OnInit {
       .subscribe(response => {
         let data = response.json();
         // alert("got here! total count is: " + data.length);
-        this.posts = data;
+        this.allPosts = data;
+        this.filteredPosts = this.filterInMemory(data);
       });
+  }
+
+  public searchTextChanged() {
+    this.filteredPosts = this.filterInMemory(this.allPosts);
+  }
+
+  public filterInMemory(posts: IPost[]) {
+    let text = this.cleanSearchText;
+    if (text.length === 0) {
+      return posts;
+    }
+
+    return posts.filter(post => post.body.toLowerCase().indexOf(text) !== -1);
+  }
+
+  public get cleanSearchText() {
+    if (!this.searchText) {
+      return "";
+    }
+
+    return this.searchText.trim().toLowerCase();
+  }
+
+  public get postsView(): IPost[] {
+    return this.cleanSearchText.length > 0 ? this.filteredPosts : this.allPosts;
   }
 }
