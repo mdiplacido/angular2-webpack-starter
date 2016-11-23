@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./posts.component.css']
 })
 export class PostsComponent implements OnInit {
+  lastError: any;
   posts: any;
   loading = false;
 
@@ -17,11 +18,12 @@ export class PostsComponent implements OnInit {
   }
 
   public fetchWithAlert() {
+    this.lastError = undefined;
     let url = "https://jsonplaceholder.typicode.com/posts";
     this.loading = true;
     this.http.get(url)
       .catch((error) => {
-        alert('got error' + error);
+        this.lastError = error;
         return Observable.throw(error);
       })
       .finally(() => this.loading = false)
